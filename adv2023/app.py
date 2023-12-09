@@ -3,6 +3,7 @@ from adv2023.dia1.dia1 import dia1_1, dia1_2
 from adv2023.dia2.dia2 import dia2_1, dia2_2
 from adv2023.dia3.dia3 import dia3_1, dia3_2
 from adv2023.dia4.dia4 import dia4_1, dia4_2
+from adv2023.dia5.dia5 import dia5_1, dia5_2
 
 
 def run():
@@ -15,6 +16,7 @@ def run():
         print("2. Dia 2")
         print("3. Dia 3")
         print("4. Dia 4")
+        print("5. Dia 5")
         print("Q. Exit")
 
         # Ask the user for a choice
@@ -32,6 +34,9 @@ def run():
         elif choice == "4":
             dia4_1("data4_1.txt", False)
             dia4_2("data4_2.txt", False)
+        elif choice == "5":
+            seeds, map_seeds = dia5_1("data5_1.txt", False)
+            dia5_2(seeds, map_seeds, True)
         # If the user chooses Q, exit the loop
         elif choice.upper() == "Q":
             break
