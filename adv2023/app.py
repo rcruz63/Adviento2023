@@ -36,7 +36,7 @@ def run():
             dia4_2("data4_2.txt", False)
         elif choice == "5":
             seeds, map_seeds = dia5_1("data5_1.txt", False)
-            dia5_2(seeds, map_seeds, True)
+            dia5_2(seeds, map_seeds, False)
         # If the user chooses Q, exit the loop
         elif choice.upper() == "Q":
             break

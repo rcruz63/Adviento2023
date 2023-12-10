@@ -115,29 +115,32 @@ def dia5_1(data, verbose: bool = False):
     return seeds, map_seeds
 
 
-def expand_seeds(seeds, verbose: bool = False):
+def expand_seeds(seeds, map_seeds, verbose: bool = False):
     """ Expandir una lista de semillas. """
-    new_seeds = []
+    min_location = -1
     for i in range(0, len(seeds), 2):
         inicio = seeds[i]
         longitud = seeds[i+1]
-        new_seeds.extend(range(inicio, inicio + longitud))
-    if verbose:
-        print(f'new_seeds = "{new_seeds}"')
-    return new_seeds
+        print(f'Processing seeds "{inicio}" and "{inicio + longitud}"')
+        for new_seed in range(inicio, inicio + longitud):
+            if (new_seed - inicio) % 10000 == 0:
+                print(f'new_seed = "{new_seed}"')
+            if verbose:
+                print(f'New seed = "{new_seed}"')
+            new_path=path_seed(new_seed, map_seeds, verbose)
+            if min_location == -1 or new_path[-1] < min_location:
+                min_location = new_path[-1]
+                print("")
+                print(f'New min for seed "{new_seed}" min_location = "{min_location}"')
+    return min_location
+
+
 
 
 def dia5_2(seeds, map_seeds, verbose: bool = False):
     """ Función principal del día 5-2. """
 
-    new_seeds = expand_seeds(seeds, verbose)
-    path_seeds = where_is_seed(new_seeds, map_seeds, verbose)
-    if verbose:
-        print(f'path_seeds = "{path_seeds}"')
-
-    result = min(locations[-1] for locations in path_seeds)
-
-    # Imprimir el resultado
+    result = expand_seeds(seeds, map_seeds, verbose)
 
     print(f'resultado dia 5 - 2 = "{result}"')
 
