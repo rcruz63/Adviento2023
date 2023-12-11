@@ -39,3 +39,18 @@ En la tercera carrera, podrías mantener presionado el botón durante al menos 1
 Para ver cuánto margen de error tienes, determina el número de formas en que puedes superar el récord en cada carrera; en este ejemplo, si multiplicas estos valores juntos, obtienes 288 (4 * 8 * 9).
 
 Determina el número de formas en que podrías superar el récord en cada carrera. ¿Qué obtienes si multiplicas estos números entre sí?
+
+# Parte Dos ---
+Mientras la carrera está a punto de comenzar, te das cuenta de que el trozo de papel con los tiempos de la carrera y las distancias récord que obtuviste antes tiene un espaciado realmente malo. En realidad, solo hay una carrera; ignora los espacios entre los números en cada línea.
+
+Así que, el ejemplo anterior:
+
+Tiempo: 7 15 30
+Distancia: 9 40 200
+...ahora significa esto:
+
+Tiempo: 71530
+Distancia: 940200
+Ahora, tienes que descubrir cuántas formas existen para ganar esta única carrera. En este ejemplo, la carrera dura 71530 milisegundos y la distancia récord que debes superar es de 940200 milímetros. Podrías mantener pulsado el botón en cualquier lugar desde 14 hasta 71516 milisegundos y superar el récord, ¡un total de 71503 formas!
+
+¿Cuántas formas puedes superar el récord en esta única y mucho más larga carrera?
