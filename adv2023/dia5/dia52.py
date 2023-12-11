@@ -166,5 +166,4 @@ def dia5_2(data, verbose: bool = False):
     zip(seeds[0::2], seeds[1::2])]])
 
 if __name__ == "__main__":
-    dia5_1("data5_1.txt", verbose=False)
     dia5_2("data5_1.txt", verbose=False)
