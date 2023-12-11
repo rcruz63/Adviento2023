@@ -29,9 +29,7 @@ Mantener presionado el botón durante 3 milisegundos. Después de sus restantes 
 Mantener presionado el botón durante 4 milisegundos. Después de sus restantes 3 milisegundos de tiempo de viaje, el barco habrá recorrido 12 milímetros.
 Mantener presionado el botón durante 5 milisegundos, haciendo que el barco viaje un total de 10 milímetros.
 Mantener presionado el botón durante 6 milisegundos, haciendo que el barco viaje un total de 6 milímetros.
-Mantener presionado el botón durante 7 milisegundos. Esa es toda la duración de la carrera. Nunca sueltas el
-
- botón. El barco no puede moverse hasta que sueltes el botón. Por favor, asegúrate de soltar el botón para que el barco pueda moverse. 0 milímetros.
+Mantener presionado el botón durante 7 milisegundos. Esa es toda la duración de la carrera. Nunca sueltas el botón. El barco no puede moverse hasta que sueltes el botón. Por favor, asegúrate de soltar el botón para que el barco pueda moverse. 0 milímetros.
 Como el récord actual para esta carrera es de 9 milímetros, en realidad hay 4 formas diferentes en las que podrías ganar: podrías mantener presionado el botón durante 2, 3, 4 o 5 milisegundos al inicio de la carrera.
 
 En la segunda carrera, podrías mantener presionado el botón durante al menos 4 milisegundos y como máximo 11 milisegundos y batir el récord, un total de 8 formas diferentes de ganar.
