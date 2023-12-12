@@ -18,7 +18,7 @@ def diaX_1(data, verbose: bool = False):
             
     # Imprimir el resultado
 
-    print(f'resultado dia 4 - 1 = "{result}"')
+    print(f'resultado dia X - 1 = "{result}"')
 
 
 def diaX_2(data, verbose: bool = False):
@@ -41,7 +41,7 @@ def diaX_2(data, verbose: bool = False):
 
     # Imprimir el resultado
 
-    print(f'resultado dia 4 - 2 = "{result}"')
+    print(f'resultado dia X - 2 = "{result}"')
 
 if __name__ == "__main__":
     diaX_1("testX_1.txt", verbose=False)
