@@ -5,7 +5,7 @@ from adv2023.dia3.dia3 import dia3_1, dia3_2
 from adv2023.dia4.dia4 import dia4_1, dia4_2
 from adv2023.dia5.dia52 import dia5_2
 from adv2023.dia6.dia6 import dia6_1, dia6_2
-from adv2023.dia7.dia7 import dia7_1
+from adv2023.dia7.dia7 import dia7_1, dia7_2
 
 
 def run():
@@ -45,7 +45,7 @@ def run():
             dia6_2("data6_1.txt", False)
         elif choice == "7":
             dia7_1("data7_1.txt", False)
-            #dia6_2("data6_1.txt", False)
+            dia7_2("data7_1.txt", False)
         # If the user chooses Q, exit the loop
         elif choice.upper() == "Q":
             break

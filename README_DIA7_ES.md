@@ -50,3 +50,26 @@ T55J5 y QQQJA son ambos tres iguales. QQQJA tiene una primera carta más fuerte,
 Ahora, puedes determinar las ganancias totales de este conjunto de manos sumando el resultado de multiplicar la puja de cada mano por su rango (765 * 1 + 220 * 2 + 28 * 3 + 684 * 4 + 483 * 5). Entonces, las ganancias totales en este ejemplo son 6440.
 
 Encuentra el rango de cada mano en tu conjunto. ¿Cuáles son las ganancias totales?
+
+## ¡Claro! Aquí está la traducción al español:
+
+--- Parte Dos ---
+Para hacer las cosas un poco más interesantes, el Elfo introduce una regla adicional. Ahora, las cartas J son comodines, cartas salvajes que pueden actuar como la carta que haría que la mano fuera del tipo más fuerte posible.
+
+Para equilibrar esto, las cartas J son ahora las cartas individuales más débiles, incluso más débiles que el 2. Las otras cartas siguen en el mismo orden: A, K, Q, T, 9, 8, 7, 6, 5, 4, 3, 2, J.
+
+Las cartas J pueden hacerse pasar por cualquier carta que sea mejor para determinar el tipo de mano; por ejemplo, QJJQ2 ahora se considera un poker. Sin embargo, para romper empates entre dos manos del mismo tipo, la J siempre se trata como J, no como la carta que finge ser: JKKK2 es más débil que QQQQ2 porque J es más débil que Q.
+
+Ahora, el ejemplo anterior se desarrolla de manera muy diferente:
+
+32T3K 765
+T55J5 684
+KK677 28
+KTJJT 220
+QQQJA 483
+32T3K sigue siendo la única pareja; no contiene ningún comodín, por lo que su fuerza no aumenta.
+KK677 es ahora la única doble pareja, convirtiéndose en la segunda mano más débil.
+T55J5, KTJJT y QQQJA ¡son ahora todas póker! T55J5 obtiene el rango 3, QQQJA obtiene el rango 4 y KTJJT obtiene el rango 5.
+Con la nueva regla de los comodines, las ganancias totales en este ejemplo son 5905.
+
+Usando la nueva regla de los comodines, encuentra el rango de cada mano en tu conjunto. ¿Cuáles son las nuevas ganancias totales?
