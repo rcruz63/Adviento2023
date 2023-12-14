@@ -12,6 +12,8 @@ Python Repo For the code of the game Advent of Code 2023
 5. [Dia 5](./README_DIA5_ES.md)
 6. [Dia 6](./README_DIA6_ES.md)
 7. [Dia 7](./README_DIA7_ES.md)
+7. [Dia 8](./README_DIA8_ES.md)
+7. [Dia 9](./README_DIA9_ES.md)
 
 ## English
 
@@ -22,3 +24,5 @@ Python Repo For the code of the game Advent of Code 2023
 5. [Day 5](./README_DIA5_EN.md)
 6. [Day 6](./README_DIA6_EN.md)
 7. [Day 7](./README_DIA7_EN.md)
+7. [Dia 8](./README_DIA8_ES.md)
+7. [Dia 9](./README_DIA9_ES.md)
