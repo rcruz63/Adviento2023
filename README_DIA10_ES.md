@@ -92,3 +92,96 @@ Aquí están las distancias para cada casilla en ese bucle:
 14567
 23...
 Encuentra el único bucle gigante que comienza en S. ¿Cuántos pasos a lo largo del bucle se necesitan para llegar desde la posición de inicio al punto más alejado de la posición de inicio?
+
+##  Parte Dos ---
+
+Llegas rápidamente al punto más lejano del bucle, pero el animal nunca aparece. ¿Quizás su nido está dentro del área encerrada por el bucle?
+
+Para determinar si vale la pena tomarse el tiempo para buscar tal nido, debes calcular cuántas casillas están contenidas dentro del bucle. Por ejemplo:
+
+...........
+.S-------7.
+.|F-----7|.
+.||.....||.
+.||.....||.
+.|L-7.F-J|.
+.|..|.|..|.
+.L--J.L--J.
+...........
+El bucle anterior encierra solo cuatro casillas: los dos pares de . en el suroeste y sureste (marcados como I abajo). Las casillas . centrales (marcadas como O abajo) no están en el bucle. Aquí está el mismo bucle nuevamente con esas regiones marcadas:
+
+...........
+.S-------7.
+.|F-----7|.
+.||OOOOO||.
+.||OOOOO||.
+.|L-7OF-J|.
+.|II|O|II|.
+.L--JOL--J.
+.....O.....
+De hecho, ni siquiera es necesario que haya un camino completo hacia afuera para que las casillas cuenten como fuera del bucle; ¡se permite el paso entre tuberías! Aquí, I todavía está dentro del bucle y O todavía está fuera del bucle:
+
+..........
+.S------7.
+.|F----7|.
+.||OOOO||.
+.||OOOO||.
+.|L-7F-J|.
+.|II||II|.
+.L--JL--J.
+..........
+En ambos ejemplos anteriores, 4 casillas están encerradas por el bucle.
+
+Aquí tienes un ejemplo más grande:
+
+.F----7F7F7F7F-7....
+.|F--7||||||||FJ....
+.||.FJ||||||||L7....
+FJL7L7LJLJ||LJ.L-7..
+L--J.L7...LJS7F-7L7.
+....F-J..F7FJ|L7L7L7
+....L7.F7||L7|.L7L7|
+.....|FJLJ|FJ|F7|.LJ
+....FJL-7.||.||||...
+....L---J.LJ.LJLJ...
+El boceto anterior tiene muchos trozos aleatorios de suelo, algunos de los cuales están en el bucle (I) y algunos de los cuales están fuera (O):
+
+OF----7F7F7F7F-7OOOO
+O|F--7||||||||FJOOOO
+O||OFJ||||||||L7OOOO
+FJL7L7LJLJ||LJIL-7OO
+L--JOL7IIILJS7F-7L7O
+OOOOF-JIIF7FJ|L7L7L7
+OOOOL7IF7||L7|IL7L7|
+OOOOO|FJLJ|FJ|F7|OLJ
+OOOOFJL-7O||O||||OOO
+OOOOL---JOLJOLJLJOOO
+En este ejemplo más grande, 8 casillas están encerradas por el bucle.
+
+Cualquier casilla que no sea parte del bucle principal puede contar como si estuviera encerrada por el bucle. Aquí tienes otro ejemplo con muchos trozos de tubería que no están conectados al bucle principal en absoluto:
+
+FF7FSF7F7F7F7F---7
+L|LJ||||||||||||F--J
+FL-7LJLJ||||||LJL-77
+F--JF--7||LJLJ7F7FJ-
+L---JF-JLJ.||-FJLJJ7
+|F|F-JF---7F7-L7L|7|
+|FFJF7L7F-JF7|JL---7
+7-L-JL7||F7|L7F-7F7|
+L.L7LFJ|||||FJL7||LJ
+L7JLJL-JLJLJL--JLJ.L
+Aquí solo se marcan las casillas que están encerradas por el bucle con I:
+
+FF7FSF7F7F7F7F---7
+L|LJ||||||||||||F--J
+FL-7LJLJ||||||LJL-77
+F--JF--7||LJLJIF7FJ-
+L---JF-JLJIIIIFJLJJ7
+|F|F-JF---7IIIL7L|7|
+|FFJF7L7F-JF7IIL---7
+7-L-JL7||F7|L7F-7F7|
+L.L7LFJ|||||FJL7||LJ
+L7JLJL-JLJLJL--JLJ.L
+En este último ejemplo, 10 casillas están encerradas por el bucle.
+
+Calcula si tienes tiempo para buscar el nido calculando el área dentro del bucle. ¿Cuántas casillas están encerradas por el bucle?
