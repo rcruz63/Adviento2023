@@ -122,6 +122,82 @@ def get_next_step(mapa, current_point, verbose):
     return [new_orientation, new_coordinates, num_steps + 1]
 
 
+def marcar_area(ruta, x, y, area, verbose):
+    if x < 0 or y < 0 or x >= len(ruta) or y >= len(ruta[0]):
+        return False
+    if ruta[x][y] == '.':
+        ruta[x][y] = area
+        return True
+    return False
+
+
+def rellenar_area(ruta, verbose):
+    """ Recorre la matriz ruta y rellena con 'd' las posiciones con '.' entre dos 'd'."""
+
+    encontrado = True
+    while encontrado:
+        encontrado = False
+        for x in range(len(ruta)):
+            for y in range(len(ruta[0])):
+                if ruta[x][y] == 'd':
+                    for i in range(-1, 2):
+                        for j in range(-1, 2):
+                            encontrado = encontrado or marcar_area(ruta, x + i, y + j, 'd', verbose)
+
+
+def calculate_area(mapa, rutas, loop, verbose):
+    rutas_aux = rutas.copy()
+    for step in loop:
+        print("Step" + str(step))
+        x = step[1][0]
+        y = step[1][1]
+        print(f'x: {x}, y: {y}')
+        symbol = mapa[x][y]
+        orientation = step[0]
+        if symbol == '|' and orientation == 'N':
+            marcar_area(rutas_aux, x, y+1, 'd', verbose)
+            marcar_area(rutas_aux, x, y-1, 'f', verbose)
+        elif symbol == '|' and orientation == 'S':
+            marcar_area(rutas_aux, x, y-1, 'd', verbose)
+            marcar_area(rutas_aux, x, y+1, 'f', verbose)
+        elif symbol == '-' and orientation == 'E':
+            marcar_area(rutas_aux, x+1, y, 'd', verbose)
+            marcar_area(rutas_aux, x-1, y, 'f', verbose)
+        elif symbol == '-' and orientation == 'W':
+            marcar_area(rutas_aux, x-1, y, 'd', verbose)
+            marcar_area(rutas_aux, x+1, y, 'f', verbose)
+        elif symbol == 'F' and orientation == 'N':
+            marcar_area(rutas_aux, x, y-1, 'f', verbose)
+            marcar_area(rutas_aux, x-1, y, 'f', verbose)
+        elif symbol == 'F' and orientation == 'W':
+            marcar_area(rutas_aux, x, y-1, 'd', verbose)
+            marcar_area(rutas_aux, x-1, y, 'd', verbose)
+        elif symbol == '7' and orientation == 'E':
+            marcar_area(rutas_aux, x, y+1, 'f', verbose)
+            marcar_area(rutas_aux, x-1, y, 'f', verbose)
+        elif symbol == '7' and orientation == 'N':
+            marcar_area(rutas_aux, x, y+1, 'd', verbose)
+            marcar_area(rutas_aux, x-1, y, 'd', verbose)
+        elif symbol == 'J' and orientation == 'S':
+            marcar_area(rutas_aux, x, y+1, 'f', verbose)
+            marcar_area(rutas_aux, x+1, y, 'f', verbose)
+        elif symbol == 'J' and orientation == 'E':
+            marcar_area(rutas_aux, x, y+1, 'd', verbose)
+            marcar_area(rutas_aux, x+1, y, 'd', verbose)
+        elif symbol == 'L' and orientation == 'W':
+            marcar_area(rutas_aux, x, y-1, 'f', verbose)
+            marcar_area(rutas_aux, x+1, y, 'f', verbose)
+        elif symbol == 'L' and orientation == 'S':
+            marcar_area(rutas_aux, x, y-1, 'd', verbose)
+            marcar_area(rutas_aux, x+1, y, 'd', verbose)
+
+    rellenar_area(rutas_aux, verbose)
+
+    # contar el area interior: celas con 'd'
+    area = sum(sum(1 for x in fila if x == 'd') for fila in rutas_aux)
+    return area
+
+
 def dia10_1(data, verbose: bool = False):
     """ Función principal del día 10-1. """
 
@@ -146,6 +222,9 @@ def dia10_1(data, verbose: bool = False):
 
     rutas[inicio[0]][inicio[1]] = 0
 
+    loop = [['S', inicio, 0]]
+    reverse_loop = []
+
     # Buscar los caminos posibles a partir de S
     caminos_posibles = []
     # Norte
@@ -165,51 +244,70 @@ def dia10_1(data, verbose: bool = False):
         print("Caminos posibles:", caminos_posibles)
 
     coinciden = False
+    loop.append(caminos_posibles[0])
+    reverse_loop.append(caminos_posibles[1])
     for camino in caminos_posibles:
         rutas[camino[1][0]][camino[1][1]] = camino[2]
     while not coinciden:
         new_caminos_posibles = []
+        ida = True
         for camino in caminos_posibles:
             next_step = get_next_step(mapa, camino, verbose)
             if next_step != []:
+                if ida:
+                    loop.append(next_step)
+                    ida = False
+                else:
+                    reverse_loop.append(next_step)
+                    ida = True
                 new_caminos_posibles.append(next_step)
                 rutas[next_step[1][0]][next_step[1][1]] = next_step[2]
         caminos_posibles = new_caminos_posibles
         if len(caminos_posibles) < 2:
             print("ERROR: Todos los caminos son invalidos.")
             exit(1)
-        if verbose:
-            print("Caminos posibles:", caminos_posibles)
+        # if verbose:
+        #     print("Caminos posibles:", caminos_posibles)
+            
         # comprobar si coinciden algún camino posible mirando si el segundo elemento
         # de cada camino es igual al segundo elemento de los otros caminos
         for camino in caminos_posibles:
             for camino2 in caminos_posibles:
-                if camino[1] == camino2[1] and camino != camino2:
+                if camino[1] == camino2[1]:
                     coinciden = True
                     break
             if coinciden:
                 break
+    # Añadir reverse_loop a loop al reves
+    loop.extend(reverse_loop[::-1])
+    if verbose:
+        print("Loop:", loop)
+
+    # Calcular el volumen interior
+    result2 = calculate_area(mapa, rutas, loop, verbose)
 
     # el resultado es igual al mayor valor en rutas ignorando los '.'
     if verbose:
         print("Rutas:")
         for fila in rutas:
             print(fila)
-
-    for fila in rutas:
+    ruta_para_calculo = rutas.copy()
+    for fila in ruta_para_calculo:
         for i in range(len(fila)):
             if fila[i] == '.':
                 fila[i] = 0
     if verbose:
         print("Ruta 2:")
-        for fila in rutas:
+        for fila in ruta_para_calculo:
             print(fila)
         
     # Calcular el resultado
-    result = max(max(fila) for fila in rutas)
+    result = max(max(fila) for fila in ruta_para_calculo)
             
     # Imprimir el resultado
     print(f'resultado dia 10 - 1 = "{result}"')
+    print(f'resultado dia 10 - 2 = "{result2}"')
+
 
 
 # def dia10_2(data, verbose: bool = False):
