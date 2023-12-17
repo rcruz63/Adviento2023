@@ -1,4 +1,5 @@
 import os
+import copy
 
 CAMINOS = {
     'N': ['|', '7', 'F'],
@@ -283,6 +284,7 @@ def dia10_1(data, verbose: bool = False):
     if verbose:
         print("Loop:", loop)
 
+    rutas_copia = copy.deepcopy(rutas)
     # Calcular el volumen interior
     result2 = calculate_area(mapa, rutas, loop, verbose)
 
@@ -291,18 +293,17 @@ def dia10_1(data, verbose: bool = False):
         print("Rutas:")
         for fila in rutas:
             print(fila)
-    ruta_para_calculo = rutas.copy()
-    for fila in ruta_para_calculo:
+    for fila in rutas_copia:
         for i in range(len(fila)):
             if fila[i] == '.':
                 fila[i] = 0
     if verbose:
         print("Ruta 2:")
-        for fila in ruta_para_calculo:
+        for fila in rutas_copia:
             print(fila)
         
     # Calcular el resultado
-    result = max(max(fila) for fila in ruta_para_calculo)
+    result = max(max(fila) for fila in rutas_copia)
             
     # Imprimir el resultado
     print(f'resultado dia 10 - 1 = "{result}"')
