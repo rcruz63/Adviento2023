@@ -138,8 +138,8 @@ def rellenar_area(ruta, verbose):
     encontrado = True
     while encontrado:
         encontrado = False
-        for x in range(len(ruta)):
-            for y in range(len(ruta[0])):
+        for x, _ in enumerate(ruta):
+            for y, _ in enumerate(ruta[0]):
                 if ruta[x][y] == 'd':
                     for i in range(-1, 2):
                         for j in range(-1, 2):
@@ -147,7 +147,7 @@ def rellenar_area(ruta, verbose):
 
 
 def calculate_area(mapa, rutas, loop, verbose):
-    rutas_aux = rutas.copy()
+    """ """
     for step in loop:
         print("Step" + str(step))
         x = step[1][0]
@@ -156,46 +156,56 @@ def calculate_area(mapa, rutas, loop, verbose):
         symbol = mapa[x][y]
         orientation = step[0]
         if symbol == '|' and orientation == 'N':
-            marcar_area(rutas_aux, x, y+1, 'd', verbose)
-            marcar_area(rutas_aux, x, y-1, 'f', verbose)
+            marcar_area(rutas, x, y+1, 'd', verbose)
+            marcar_area(rutas, x, y-1, 'f', verbose)
         elif symbol == '|' and orientation == 'S':
-            marcar_area(rutas_aux, x, y-1, 'd', verbose)
-            marcar_area(rutas_aux, x, y+1, 'f', verbose)
+            marcar_area(rutas, x, y-1, 'd', verbose)
+            marcar_area(rutas, x, y+1, 'f', verbose)
         elif symbol == '-' and orientation == 'E':
-            marcar_area(rutas_aux, x+1, y, 'd', verbose)
-            marcar_area(rutas_aux, x-1, y, 'f', verbose)
+            marcar_area(rutas, x+1, y, 'd', verbose)
+            marcar_area(rutas, x-1, y, 'f', verbose)
         elif symbol == '-' and orientation == 'W':
-            marcar_area(rutas_aux, x-1, y, 'd', verbose)
-            marcar_area(rutas_aux, x+1, y, 'f', verbose)
+            marcar_area(rutas, x-1, y, 'd', verbose)
+            marcar_area(rutas, x+1, y, 'f', verbose)
         elif symbol == 'F' and orientation == 'N':
-            marcar_area(rutas_aux, x, y-1, 'f', verbose)
-            marcar_area(rutas_aux, x-1, y, 'f', verbose)
+            marcar_area(rutas, x, y-1, 'f', verbose)
+            marcar_area(rutas, x-1, y, 'f', verbose)
         elif symbol == 'F' and orientation == 'W':
-            marcar_area(rutas_aux, x, y-1, 'd', verbose)
-            marcar_area(rutas_aux, x-1, y, 'd', verbose)
+            marcar_area(rutas, x, y-1, 'd', verbose)
+            marcar_area(rutas, x-1, y, 'd', verbose)
         elif symbol == '7' and orientation == 'E':
-            marcar_area(rutas_aux, x, y+1, 'f', verbose)
-            marcar_area(rutas_aux, x-1, y, 'f', verbose)
+            marcar_area(rutas, x, y+1, 'f', verbose)
+            marcar_area(rutas, x-1, y, 'f', verbose)
         elif symbol == '7' and orientation == 'N':
-            marcar_area(rutas_aux, x, y+1, 'd', verbose)
-            marcar_area(rutas_aux, x-1, y, 'd', verbose)
+            marcar_area(rutas, x, y+1, 'd', verbose)
+            marcar_area(rutas, x-1, y, 'd', verbose)
         elif symbol == 'J' and orientation == 'S':
-            marcar_area(rutas_aux, x, y+1, 'f', verbose)
-            marcar_area(rutas_aux, x+1, y, 'f', verbose)
+            marcar_area(rutas, x, y+1, 'f', verbose)
+            marcar_area(rutas, x+1, y, 'f', verbose)
         elif symbol == 'J' and orientation == 'E':
-            marcar_area(rutas_aux, x, y+1, 'd', verbose)
-            marcar_area(rutas_aux, x+1, y, 'd', verbose)
+            marcar_area(rutas, x, y+1, 'd', verbose)
+            marcar_area(rutas, x+1, y, 'd', verbose)
         elif symbol == 'L' and orientation == 'W':
-            marcar_area(rutas_aux, x, y-1, 'f', verbose)
-            marcar_area(rutas_aux, x+1, y, 'f', verbose)
+            marcar_area(rutas, x, y-1, 'f', verbose)
+            marcar_area(rutas, x+1, y, 'f', verbose)
         elif symbol == 'L' and orientation == 'S':
-            marcar_area(rutas_aux, x, y-1, 'd', verbose)
-            marcar_area(rutas_aux, x+1, y, 'd', verbose)
+            marcar_area(rutas, x, y-1, 'd', verbose)
+            marcar_area(rutas, x+1, y, 'd', verbose)
 
-    rellenar_area(rutas_aux, verbose)
+    if verbose:
+        print("Rutas after loop:")
+        for fila in rutas:
+            print(fila)
+
+    rellenar_area(rutas, verbose)
+
+    if verbose:
+        print("Rutas after relleno:")
+        for fila in rutas:
+            print(fila)
 
     # contar el area interior: celas con 'd'
-    area = sum(sum(1 for x in fila if x == 'd') for fila in rutas_aux)
+    area = sum(sum(1 for x in fila if x == 'd') for fila in rutas)
     return area
 
 
@@ -212,7 +222,9 @@ def dia10_1(data, verbose: bool = False):
     # en una columna
     mapa = [list(linea) for linea in open(data_path, encoding="utf-8").read().split('\n')]
     if verbose:
-        print(mapa)
+        print("Mapa:")
+        for fila in mapa:
+            print(fila)
 
     # genero una representación del mapa vacio con el caracter '.' en todos los elementos
     rutas = [['.' for _ in fila] for fila in mapa]
@@ -254,7 +266,7 @@ def dia10_1(data, verbose: bool = False):
         ida = True
         for camino in caminos_posibles:
             next_step = get_next_step(mapa, camino, verbose)
-            if next_step != []:
+            if next_step:
                 if ida:
                     loop.append(next_step)
                     ida = False
@@ -267,18 +279,25 @@ def dia10_1(data, verbose: bool = False):
         if len(caminos_posibles) < 2:
             print("ERROR: Todos los caminos son invalidos.")
             exit(1)
-        # if verbose:
-        #     print("Caminos posibles:", caminos_posibles)
+        if verbose:
+            print("Caminos posibles:", caminos_posibles)
             
         # comprobar si coinciden algún camino posible mirando si el segundo elemento
         # de cada camino es igual al segundo elemento de los otros caminos
         for camino in caminos_posibles:
             for camino2 in caminos_posibles:
-                if camino[1] == camino2[1]:
+                if camino[1] == camino2[1] and camino != camino2:
                     coinciden = True
                     break
             if coinciden:
                 break
+    
+    # el resultado es igual al mayor valor en rutas ignorando los '.'
+    if verbose:
+        print("Rutas:")
+        for fila in rutas:
+            print(fila)
+    
     # Añadir reverse_loop a loop al reves
     loop.extend(reverse_loop[::-1])
     if verbose:
@@ -288,23 +307,18 @@ def dia10_1(data, verbose: bool = False):
     # Calcular el volumen interior
     result2 = calculate_area(mapa, rutas, loop, verbose)
 
-    # el resultado es igual al mayor valor en rutas ignorando los '.'
-    if verbose:
-        print("Rutas:")
-        for fila in rutas:
-            print(fila)
     for fila in rutas_copia:
-        for i in range(len(fila)):
+        for i, _ in enumerate(fila):
             if fila[i] == '.':
                 fila[i] = 0
     if verbose:
         print("Ruta 2:")
         for fila in rutas_copia:
             print(fila)
-        
+
     # Calcular el resultado
     result = max(max(fila) for fila in rutas_copia)
-            
+
     # Imprimir el resultado
     print(f'resultado dia 10 - 1 = "{result}"')
     print(f'resultado dia 10 - 2 = "{result2}"')
