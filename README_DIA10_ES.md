@@ -34,7 +34,7 @@ Si el animal hubiera entrado en este bucle en la esquina noroeste, el dibujo se 
 .|.|.
 .L-J.
 .....
-En el diagrama anterior, la casilla S sigue siendo un codo F de 90 grados: puedes decirlo por cómo se conectan las tuberías adyacentes a ella.
+En el diagrama anterior, la casilla S sigue siendo un codo F de 90 grados: puedes deducirlo por cómo se conectan las tuberías adyacentes a ella.
 
 ¡Desafortunadamente, también hay muchas tuberías que no están conectadas al bucle! Este dibujo muestra el mismo bucle que el anterior:
 
