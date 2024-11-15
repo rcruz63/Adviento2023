@@ -57,7 +57,7 @@ def run():
         elif choice == "9":
             dia9_1("data9_1.txt", False)
         elif choice == "10":
-            dia10_1("data10_1.txt", True)
+            dia10_1("data10_1.txt", False)
         # If the user chooses Q, exit the loop
         elif choice.upper() == "Q":
             break

@@ -29,7 +29,7 @@ def dia10_1(data: str, verbose: bool = False) -> int:
     if verbose:
         print("Inicial:", start_pos)
     _, distances = explore_loop(grid, start_pos, verbose)
-    
+
     max_distance = max(distances.values())
 
     if verbose:
@@ -100,7 +100,7 @@ def is_connected(grid: List[List[str]], pos1: Tuple[int, int], pos2: Tuple[int, 
     """Comprueba si dos posiciones están conectadas según las tuberías."""
     y1, x1 = pos1
     y2, x2 = pos2
-    
+
     for dy, dx in PIPE_CONNECTIONS.get(grid[y1][x1], []):
         if (y1 + dy, x1 + dx) == (y2, x2):
             return True
