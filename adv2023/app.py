@@ -8,6 +8,7 @@ from adv2023.dia6.dia6 import dia6_1, dia6_2
 from adv2023.dia7.dia7 import dia7_1, dia7_2
 from adv2023.dia8.dia8 import dia8_1
 from adv2023.dia9.dia9 import dia9_1
+from adv2023.dia10.dia10 import dia10_1
 
 
 def run():
@@ -25,6 +26,7 @@ def run():
         print("7. Dia 7")
         print("8. Dia 8")
         print("9. Dia 9")
+        print("10. Dia 10")
         print("Q. Exit")
 
         # Ask the user for a choice
@@ -54,6 +56,8 @@ def run():
             dia8_1(3, "data8_1.txt", False)
         elif choice == "9":
             dia9_1("data9_1.txt", False)
+        elif choice == "10":
+            dia10_1("data10_1.txt", False)
         # If the user chooses Q, exit the loop
         elif choice.upper() == "Q":
             break
