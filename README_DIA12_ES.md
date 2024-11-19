@@ -83,3 +83,41 @@ En este ejemplo, el número de configuraciones posibles para cada fila es:
 Sumando todas las configuraciones posibles se obtiene un total de 21 configuraciones.
 
 Para cada fila, cuenta todas las configuraciones diferentes de termas operativas y dañadas que cumplan con los criterios dados. ¿Cuál es la suma de esas configuraciones?
+
+## Parte Dos
+
+Mientras observas el campo de termas, sientes que hay muchas más termas de las que aparecen en los registros de condiciones. Al examinar los registros, descubres que en realidad estuvieron plegados todo este tiempo.
+
+Para desplegar los registros, en cada fila, reemplaza la lista de condiciones de las termas por cinco copias de sí misma (separadas por ?) y reemplaza la lista de grupos contiguos de termas dañadas por cinco copias de sí misma (separadas por ,).
+
+Por ejemplo, esta fila:
+
+```
+.# 1
+```
+Se convertiría en:
+
+```
+.#?.#?.#?.#?.# 1,1,1,1,1
+```
+
+La primera línea del ejemplo anterior se convertiría en:
+
+```
+???.###????.###????.###????.###????.### 1,1,3,1,1,3,1,1,3,1,1,3,1,1,3
+```
+En el ejemplo anterior, después de desplegar, el número de configuraciones posibles para algunas filas ahora es mucho mayor:
+
+```
+???.### 1,1,3 - 1 configuración  
+.??..??...?##. 1,1,3 - 16384 configuraciones  
+?#?#?#?#?#?#?#? 1,3,1,6 - 1 configuración  
+????.#...#... 4,1,1 - 16 configuraciones  
+????.######..#####. 1,6,5 - 2500 configuraciones  
+?###???????? 3,2,1 - 506250 configuraciones
+```
+
+Después de desplegar los registros, la suma total de configuraciones posibles es 525152.
+
+Despliega los registros de condiciones y calcula la nueva suma de posibles configuraciones.
+
