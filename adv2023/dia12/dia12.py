@@ -1,56 +1,85 @@
 import os
 
-def contar_configuraciones2(cadena, grupos):
-    """ Calcula el valor de las configuraciones ampliadas * 5 """
-    cadena = cadena*5
-    grupos = [int(y) for y in ((','.join(str(x) for x in grupos))*5).split(',')]
-    return contar_configuraciones(cadena, grupos)
-
 def contar_configuraciones(cadena, grupos):
     """
     Calcula el número de configuraciones posibles para una cadena con interrogaciones 
     y una lista de grupos de parrillas.
-
+    
     Args:
         cadena (str): Cadena con puntos ".", parrillas "#" e interrogaciones "?".
         grupos (list[int]): Lista de números que representan los tamaños de los grupos contiguos de "#".
-
+    
     Returns:
         int: Número de configuraciones posibles que cumplen con los grupos dados.
     """
-    def validar_configuracion(cadena, grupos):
-        """Valida si una configuración específica cumple con los grupos."""
-        contador = []
-        actual = 0
-        for char in cadena:
-            if char == "#":
-                actual += 1
-            elif actual > 0:
-                contador.append(actual)
-                actual = 0
-        if actual > 0:
-            contador.append(actual)
-        return contador == grupos
+    memo = {}
 
-    def generar_combinaciones(cadena, indice=0):
-        """Genera todas las combinaciones posibles reemplazando `?`."""
-        if indice == len(cadena):
-            if validar_configuracion(cadena, grupos):
-                return 1
-            return 0
+    def dp(indice, grupo_actual):
+        """
+        Función recursiva con memoización para calcular configuraciones posibles.
         
-        if cadena[indice] == "?":
-            # Sustituir `?` por `.` y `#`
-            return (
-                generar_combinaciones(cadena[:indice] + "." + cadena[indice + 1:], indice + 1) +
-                generar_combinaciones(cadena[:indice] + "#" + cadena[indice + 1:], indice + 1)
-            )
-        # Continuar si el carácter no es `?`
-        return generar_combinaciones(cadena, indice + 1)
+        Args:
+            indice (int): Índice actual en la cadena.
+            grupo_actual (int): Grupo actual que estamos intentando satisfacer.
+        
+        Returns:
+            int: Número de configuraciones válidas desde este punto.
+        """
+        # Caso base: Si hemos completado todos los grupos, el resto debe ser "."
+        if grupo_actual == len(grupos):
+            return all(c == '.' or c == '?' for c in cadena[indice:])
 
-    # Inicia la generación de combinaciones
-    return generar_combinaciones(cadena)
+        # Si hemos terminado la cadena antes de completar los grupos, no es válido
+        if indice >= len(cadena):
+            return 0
 
+        # Verificar si ya hemos calculado este estado
+        estado = (indice, grupo_actual)
+        if estado in memo:
+            return memo[estado]
+
+        # Contador de configuraciones válidas
+        total_configuraciones = 0
+
+        # Opción 1: Intentar satisfacer el grupo actual
+        tam_grupo = grupos[grupo_actual]
+        if indice + tam_grupo <= len(cadena):
+            subcadena = cadena[indice:indice + tam_grupo]
+            if all(c == '#' or c == '?' for c in subcadena) and (
+                indice + tam_grupo == len(cadena) or cadena[indice + tam_grupo] in ('.', '?')
+            ):
+                # Avanzar al siguiente grupo
+                total_configuraciones += dp(indice + tam_grupo + 1, grupo_actual + 1)
+
+        # Opción 2: Saltar el carácter actual si es "."
+        if cadena[indice] in ('.', '?'):
+            total_configuraciones += dp(indice + 1, grupo_actual)
+
+        # Guardar en memo y retornar
+        memo[estado] = total_configuraciones
+        return total_configuraciones
+
+    # Iniciar la recursión desde el índice 0 y el primer grupo
+    return dp(0, 0)
+
+
+def contar_configuraciones2(cadena, grupos):
+    """
+    Calcula el número de configuraciones posibles para una cadena y grupos extendidos.
+    Extiende la cadena y los grupos según las reglas de la parte dos.
+    
+    Args:
+        cadena (str): Cadena inicial con puntos ".", parrillas "#" e interrogaciones "?".
+        grupos (list[int]): Lista inicial de grupos de parrillas "#".
+    
+    Returns:
+        int: Número de configuraciones posibles con la cadena y los grupos extendidos.
+    """
+    print(f"Contar configuraciones 2 Inicio: {cadena} - {grupos}")
+    cadena = '?'.join([cadena] * 5)
+    grupos = grupos*5
+    print(f"Contar configuraciones 2 Llamada: {cadena} - {grupos}")
+    return contar_configuraciones(cadena, grupos)
 
 def dia12_1(data, verbose: bool = False):
     """ Función principal del día 12-1. """
@@ -86,10 +115,8 @@ def dia12_2(data, verbose: bool = False):
     for registro in registros:
         # Decodificar la linea
         termas, confs = registro.split()
-        termas = termas*5
-        confs = confs*5
         configuraciones = [int(x) for x in confs.split(",")]
-        result += contar_configuraciones(termas, configuraciones)
+        result += contar_configuraciones2(termas, configuraciones)
 
     # Imprimir el resultado
 
@@ -107,12 +134,12 @@ def test_contar_configuraciones():
 
 def test_contar_configuraciones2():
     """Testea la función contar_configuraciones con diferentes casos de prueba."""
-    assert contar_configuraciones2("???.###", [1, 1, 3]) == 1, "Test 1 fallido. Se esperaba 1 y ha dado " + str(contar_configuraciones("???.###", [1, 1, 3]))
-    assert contar_configuraciones2(".??..??...?##.", [1, 1, 3]) == 16384, "Test 2 fallido. Se esperaba 16384 y ha dado " + str(contar_configuraciones(".??..??...?##.", [1, 1, 3]))
-    assert contar_configuraciones2("?#?#?#?#?#?#?#?", [1, 3, 1, 6]) == 1, "Test 3 fallido. Se esperaba 1 y ha dado " + str(contar_configuraciones("?#?#?#?#?#?#?", [1, 3, 1, 6]))
-    assert contar_configuraciones2("????.#...#...", [4, 1, 1]) == 16, "Test 4 fallido. Se esperaba 16 y ha dado " + str(contar_configuraciones("????.#...#...", [4, 1, 1]))
-    assert contar_configuraciones2("????.######..#####.", [1, 6, 5]) == 2500, "Test 5 fallido. Se esperaba 2500 y ha dado " + str(contar_configuraciones("????.######..#####.", [1, 6, 5]))
-    assert contar_configuraciones2("?###????????", [3, 2, 1]) == 506250, "Test 6 fallido. Se esperaba 506250 y ha dado " + str(contar_configuraciones("?###????????", [3, 2, 1]))
+    assert contar_configuraciones2("???.###", [1, 1, 3]) == 1, "Test 1 fallido. Se esperaba 1 y ha dado " + str(contar_configuraciones2("???.###", [1, 1, 3]))
+    assert contar_configuraciones2(".??..??...?##.", [1, 1, 3]) == 16384, "Test 2 fallido. Se esperaba 16384 y ha dado " + str(contar_configuraciones2(".??..??...?##.", [1, 1, 3]))
+    assert contar_configuraciones2("?#?#?#?#?#?#?#?", [1, 3, 1, 6]) == 1, "Test 3 fallido. Se esperaba 1 y ha dado " + str(contar_configuraciones2("?#?#?#?#?#?#?", [1, 3, 1, 6]))
+    assert contar_configuraciones2("????.#...#...", [4, 1, 1]) == 16, "Test 4 fallido. Se esperaba 16 y ha dado " + str(contar_configuraciones2("????.#...#...", [4, 1, 1]))
+    assert contar_configuraciones2("????.######..#####.", [1, 6, 5]) == 2500, "Test 5 fallido. Se esperaba 2500 y ha dado " + str(contar_configuraciones2("????.######..#####.", [1, 6, 5]))
+    assert contar_configuraciones2("?###????????", [3, 2, 1]) == 506250, "Test 6 fallido. Se esperaba 506250 y ha dado " + str(contar_configuraciones2("?###????????", [3, 2, 1]))
     print("Todos los tests pasaron correctamente.")
 
 if __name__ == "__main__":
@@ -120,5 +147,5 @@ if __name__ == "__main__":
     # test_contar_configuraciones()
     # test_contar_configuraciones2()
     # dia12_1("test12_1.txt", verbose=False)
-    dia12_1("data12_1.txt", verbose=False)
-    # dia12_2("test12_2.txt", verbose=True)
+    dia12_2("data12_1.txt", verbose=False)
+    # dia12_2("test12_1.txt", verbose=False)
